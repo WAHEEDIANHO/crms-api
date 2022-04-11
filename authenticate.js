@@ -33,7 +33,12 @@ exports.jwtPassport = passport.use(
   })
 );
 
+exports.getUserId = (token) => {
+  return jwt.verify(token, process.env.SECRET)
+}
+
 exports.verifyUser = passport.authenticate("jwt", { session: false });
+
 
 /**
  * List of things to using jwt

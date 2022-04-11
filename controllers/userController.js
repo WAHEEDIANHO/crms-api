@@ -4,8 +4,7 @@ const { error } = require("./error");
 const getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    if (users.length !== 0)
-      res.status(200).json({ success: true, data: users });
+    if (users) res.status(200).json({ success: true, data: users });
     else error("no user yet");
   } catch ({ message }) {
     res.status(500).json({ success: false, msg: error });
@@ -43,10 +42,11 @@ const updateUserByID = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
-    const update_user = await Criminal.findByIdAndUpdate(id, req.body);
+    const update_user = await User.findByIdAndUpdate(id, req.body);
     if (!update_user) error("no user updated");
-    res.status(200).json({ sucess: true, data: id });
+    res.status(200).json({ sucess: true, id });
   } catch ({ message }) {
+    console.log(message);
     res.status(500).json({ success: false, message });
   }
 };
@@ -57,7 +57,7 @@ deleteUserByID = async (req, res) => {
   try {
     const delete_user = await User.findByIdAndDelete(id);
     if (!delete_user) error();
-    res.status(200).json({ sucess: true, data: id });
+    res.status(200).json({ sucess: true, id });
   } catch (error) {
     res.status(500).json({ success: false, msg: error });
   }
