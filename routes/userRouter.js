@@ -41,7 +41,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(getUsers)
+  .get(verifyUser, getUsers)
   .post(forbiddenMethod)
   .put(forbiddenMethod)
   .delete(forbiddenMethod);
