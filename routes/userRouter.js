@@ -39,20 +39,6 @@ const upload = multer({
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(verifyUser, getUsers)
-  .post(forbiddenMethod)
-  .put(forbiddenMethod)
-  .delete(forbiddenMethod);
-
-router
-  .route("/:id")
-  .get(verifyUser, getUserByID)
-  .post(forbiddenMethod)
-  .put(verifyUser, updateUserByID)
-  .delete(verifyUser, deleteUserByID);
-
 router.post("/signup", (req, res) => {
   upload(req, res, function (err) {
     if (err instanceof multer.MulterError) {
@@ -111,4 +97,19 @@ router.get("/logout", (req, res) => {
   res.clearCookie("session-id");
   res.send("Logout successsfully");
 });
+
+router
+  .route("/")
+  .get(verifyUser, getUsers)
+  .post(forbiddenMethod)
+  .put(forbiddenMethod)
+  .delete(forbiddenMethod);
+
+router
+  .route("/:id")
+  .get(verifyUser, getUserByID)
+  .post(forbiddenMethod)
+  .put(verifyUser, updateUserByID)
+  .delete(verifyUser, deleteUserByID);
+
 module.exports = router;
