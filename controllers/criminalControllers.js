@@ -48,8 +48,6 @@ addCriminal = async (req, res) => {
       // res.status(200).json({ sucess: true });
       if (req.file !== undefined) {
         req.body.imageUrl = `uploads/criminals/${req?.file?.filename}`;
-        req.body.username = req.body.email;
-        req.body.password = "12345678";
         // const criminal = new Criminal();
         const criminal = await Criminal.create(req.body);
         const { nok_name, nok_no, nok_rel } = req.body;

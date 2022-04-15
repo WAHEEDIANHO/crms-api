@@ -13,7 +13,7 @@ const authenticate = require("../authenticate");
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
-const { verifyUser } = require("../authenticate");
+const { verifyUser, verifyAdmin } = require("../authenticate");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -82,6 +82,7 @@ router.post("/signup", (req, res) => {
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
   const token = authenticate.getToken({ _id: req.user._id });
+  console.log(authenticate.getUserId(token));
   res.statusCode = 200;
   res.setHeader("Content-type", "application/json");
   res.json({
@@ -98,6 +99,26 @@ router.get("/logout", (req, res) => {
   res.send("Logout successsfully");
 });
 
+router.post("/change_password", verifyUser, (req, res) => {
+  console.log(req.body);
+  const { email, oldPassword, newPassword } = req.body;
+  User.findByUsername(email)
+    .then((user) => {
+      console.log("ressetting password");
+      user.changePassword(oldPassword, newPassword, (err) => {
+        if (!err) {
+          user.save();
+          res.json({ success: true });
+        } else {
+          const err = new Error();
+          err.message = "Error chnnage password";
+          res.status(500).json({ err: err });
+        }
+      });
+    })
+    .catch((err) => res.status(500).json({ err: "user not find" }));
+});
+
 router
   .route("/")
   .get(verifyUser, getUsers)
@@ -110,6 +131,6 @@ router
   .get(verifyUser, getUserByID)
   .post(forbiddenMethod)
   .put(verifyUser, updateUserByID)
-  .delete(verifyUser, deleteUserByID);
+  .delete(verifyUser, verifyAdmin, deleteUserByID);
 
 module.exports = router;

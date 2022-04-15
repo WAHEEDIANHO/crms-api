@@ -11,7 +11,7 @@ const criminalsSchema = new Schema(
   {
     sname: { type: String, required: true },
     othername: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     phone: { type: String, required: true },
     height: { type: Number, required: true, min: 0, max: 8 },
     weight: { type: Number, required: true, min: 0 },
@@ -29,6 +29,7 @@ const criminalsSchema = new Schema(
     dos: { type: Date, required: true },
     sentence_duration: { type: Number, default: 0 },
     nok: { type: nokSchema, default: () => ({}) },
+    criminal_id: { type: String, required: true },
   },
   { timestamps: true }
 );

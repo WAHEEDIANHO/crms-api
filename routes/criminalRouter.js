@@ -7,7 +7,7 @@ const {
 } = require("../controllers/criminalControllers");
 const forbiddenMethod = require("../controllers/forbiddenMethod");
 const express = require("express");
-const { verifyUser } = require("../authenticate");
+const { verifyUser, verifyAdmin } = require("../authenticate");
 
 const router = express.Router();
 
@@ -23,6 +23,6 @@ router
   .get(verifyUser, getCriminalByID)
   .post(forbiddenMethod)
   .put(verifyUser, updateCriminalID)
-  .delete(verifyUser, deleteCrimalByID);
+  .delete(verifyUser, verifyAdmin, deleteCrimalByID);
 
 module.exports = router;

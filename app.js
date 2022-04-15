@@ -25,6 +25,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
 app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -58,4 +59,9 @@ db.once("connected", () => {
 
 app.use(`/${api}/user`, userRouter);
 app.use(`/${api}/criminal`, criminalRouters);
+app.use((err, req, res, next) => {
+  // console.log(err);
+  res.status(500).json({ err: "server error" });
+});
+
 app.listen(PORT, () => console.log("app listenig o port on ", PORT));
