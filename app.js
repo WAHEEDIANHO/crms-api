@@ -14,16 +14,16 @@ const app = express();
 const PORT = process.env.PORT || 7700;
 
 // Middlewares
-app.options("*", cors());
-app.use(cors());
+// app.options("*", cors());
+// app.use(cors());
 app.use(function (req, res, next) {
   //Enabling CORS
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+    "GET, POST, PUT, DELETE, PATCH"
   );
-  res.header(
+  res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization"
   );
