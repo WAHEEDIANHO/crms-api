@@ -46,7 +46,7 @@ app.use(`/${api}/uploads`, express.static(`${__dirname}/uploads`));
 app.use(passport.initialize());
 // app.use(passport.session());
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(process.env.ONLINE, {
   useNewUrlParser: true,
 });
 
